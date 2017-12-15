@@ -33,9 +33,15 @@ class State:
         dx, dy = self.direction
         new_x = x + dx
         new_y = y + dy
-        if not (0 <= new_x < self.width and 0 <= new_y < self.height):
-            self.alive = False
-        new_head = x + dx, y + dy
+        if new_x < 0:
+            new_x = self.width - 1
+        if new_y < 0:
+            new_y = self.height - 1
+        if new_x >= self.width:
+            new_x = 0
+        if new_y >= self.height:
+            new_y = 0
+        new_head = new_x, new_y
         if new_head in self.snake:
             self.alive = False
         self.snake.append(new_head)

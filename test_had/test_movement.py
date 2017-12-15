@@ -68,6 +68,8 @@ def test_crash_self(direction):
 @pytest.mark.parametrize('direction', [(0, 1), (0, -1), (1, 0), (-1, 0)])
 def test_eat_fruit(direction):
     field = had.State()
+    field.width = 5
+    field.height = 5
     field.snake = [(2, 2)]
     field.fruit = [(2, 1), (2, 3), (1, 2), (3, 2)]
     field.direction = direction
@@ -81,4 +83,10 @@ def test_eat_fruit(direction):
     assert len(field.fruit) == 4
     assert len(set(field.fruit)) == 4
     assert set(field.fruit).isdisjoint(field.snake)
+    assert field.alive
+
+    field.move()
+    field.move()
+    field.move()
+    assert field.snake[-1] == (2, 2)
     assert field.alive
