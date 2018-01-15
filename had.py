@@ -18,10 +18,10 @@ class Snake():
             new_x, new_y = new_direction
             if (old_x, old_y) != (-new_x, -new_y):
                 self.direction = new_direction
-        x, y = self.coords[-1]
+        old_x, old_y = self.coords[-1]
         dx, dy = self.direction
-        new_x = x + dx
-        new_y = y + dy
+        new_x = old_x + dx
+        new_y = old_y + dy
         if new_x < 0:
             new_x = self.state.width - 1
         if new_y < 0:
@@ -31,15 +31,17 @@ class Snake():
         if new_y >= self.state.height:
             new_y = 0
         new_head = new_x, new_y
-        if any(new_head in snake.coords for snake in self.state.snakes):
-            self.alive = False
-            return
-        self.coords.append(new_head)
         if new_head in self.state.fruit:
             self.state.fruit.remove(new_head)
             self.state.add_fruit()
         else:
             del self.coords[0]
+        for snake in self.state.snakes:
+            if new_head in snake.coords:
+                self.alive = False
+                self.coords.append(new_head)
+                return
+        self.coords.append(new_head)
 
 class State:
     def __init__(self):
@@ -48,7 +50,7 @@ class State:
         self.fruit = []
         self.speed = 1/10
         self.snakes = [Snake(self) for i in range(2)]
-        self.snakes[1].coords = [(0, 3)]
+        self.snakes[1].coords = [(0, 3), (1, 3)]
 
     def __str__(self):
         rows = []
