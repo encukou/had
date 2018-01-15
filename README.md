@@ -18,3 +18,13 @@ Sprites are [automatically](./make_sprites.py) generated from a [vector file](./
 ... from which the game then draws individual “tiles”:
 
 ![Screenshot](./screenshot.png)
+
+
+## License
+
+All code and media in this repository are shared under
+the [CC0 Public Domain Dedication](https://creativecommons.org/publicdomain/zero/1.0/).
+May they serve you well.
+
+Attribution (link to [the repository](https://github.com/encukou/had))
+is appreciated but not necessary.
