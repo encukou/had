@@ -49,8 +49,9 @@ class State:
         self.height = 10
         self.fruit = []
         self.speed = 1/10
-        self.snakes = [Snake(self) for i in range(2)]
-        self.snakes[1].coords = [(0, 3), (1, 3)]
+        self.snakes = []
+        self.add_snake()
+        self.add_fruit()
 
     def __str__(self):
         rows = []
@@ -78,3 +79,8 @@ class State:
                     position in self.fruit):
                 self.fruit.append(position)
                 return
+
+    def add_snake(self):
+        new_snake = Snake(self)
+        new_snake.coords = [(0, len(self.snakes))]
+        self.snakes.append(new_snake)

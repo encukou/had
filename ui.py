@@ -12,6 +12,7 @@ sprites = pyglet.image.load('sprites.png')
 window = pyglet.window.Window(width=800, height=600)
 
 state = had.State()
+state.add_snake()
 state.add_fruit()
 state.width = window.width // TILE_SIZE
 state.height = window.height // TILE_SIZE
