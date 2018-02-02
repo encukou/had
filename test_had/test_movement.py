@@ -4,6 +4,7 @@ import had
 
 def test_movement_length_one():
     field = had.State()
+    field.snake_coords = [(0, 0)]
     field.snake_direction = 0, 1
     field.move()
     assert field.snake_coords == [(0, 1)]
@@ -20,6 +21,7 @@ def test_movement_length_one():
 
 def test_movement_length_three():
     field = had.State()
+    field.snake_coords = [(0, 0)]
     field.snake_coords = [(5, 5), (5, 6), (5, 7)]
     field.snake_direction = 0, 1
     field.move()
@@ -50,15 +52,17 @@ def test_movement_length_three():
 @pytest.mark.parametrize('direction', [(0, 1), (0, -1), (1, 0), (-1, 0)])
 def test_crash_wall(direction):
     field = had.State()
+    field.snake_coords = [(0, 0)]
     field.width = 1
     field.height = 1
     field.snake_direction = direction
     field.move()
-    assert field.snake_alive
+    assert not field.snake_alive
 
 @pytest.mark.parametrize('direction', [(0, 1), (0, -1), (1, 0), (-1, 0)])
 def test_crash_self(direction):
     field = had.State()
+    field.snake_coords = [(0, 0)]
     field.snake_coords = [(0, 0), (1, 0), (2, 0), (2, 1), (2, 2), (1, 2), (0, 2),
                           (0, 1), (1, 1)]
     field.snake_direction = direction
@@ -68,6 +72,7 @@ def test_crash_self(direction):
 @pytest.mark.parametrize('direction', [(0, 1), (0, -1), (1, 0), (-1, 0)])
 def test_eat_fruit(direction):
     field = had.State()
+    field.snake_coords = [(0, 0)]
     field.width = 5
     field.height = 5
     field.snake_coords = [(2, 2)]

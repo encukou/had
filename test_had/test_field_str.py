@@ -3,7 +3,7 @@ import textwrap
 import had
 
 
-def test_repr_empty_field():
+def test_repr_starting_field():
     expected = textwrap.dedent("""
         . . . . . . . . . .
         . . . . . . . . . .
@@ -14,10 +14,9 @@ def test_repr_empty_field():
         . . . . . . . . . .
         . . . . . . . . . .
         . . . . . . . . . .
-        . . . . . . . . . .
+        X > . . . . . . . .
     """).strip()
     state = had.State()
-    state.snake_coords = []
     assert str(state) == expected
 
 
@@ -25,7 +24,7 @@ def test_repr_some_coords():
     expected = textwrap.dedent("""
         . . . . . . . . . .
         . . . . . . . . . .
-        . . . . X . . . . .
+        . . . . > . . . . .
         . . . . . . . . . .
         . . . . . . . . . .
         . . . . . . . . . .
@@ -42,7 +41,7 @@ def test_repr_some_coords():
 def test_repr_snake():
     expected = textwrap.dedent("""
         . . . . . . . . . .
-        . . . . X . . . . .
+        . . . . > . . . . .
         . . . . X . . . . .
         . . . . X . . . . .
         . . . . X . . . . .
@@ -60,7 +59,7 @@ def test_repr_snake():
 def test_repr_size():
     expected = textwrap.dedent("""
         . . . . . . . . . . .
-        . . . X . . . . . . .
+        . . . > . . . . . . .
         . . X . . . . . . . .
         . . . . . . . . . . .
         . . . . . . . . . . .

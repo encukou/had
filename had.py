@@ -23,6 +23,16 @@ class State:
             rows.append(row)
         for x, y in self.snake_coords:
             rows[y][x] = 'X'
+
+        if self.snake_direction == (1, 0):
+            rows[y][x] = '>'
+        elif self.snake_direction == (-1, 0):
+            rows[y][x] = '<'
+        elif self.snake_direction == (0, 1):
+            rows[y][x] = '^'
+        elif self.snake_direction == (0, -1):
+            rows[y][x] = 'v'
+
         for x, y in self.fruit:
             rows[y][x] = '!'
         return '\n'.join(' '.join(row) for row in reversed(rows))
@@ -49,6 +59,13 @@ class State:
         new_y = new_y % self.height
         new_head = new_x, new_y
 
+        # Handle the snake crashing into itself
+        if new_head in self.snake_coords:
+            self.snake_alive = False
+
+        # Add the new coordinate to the snake
+        self.snake_coords.append(new_head)
+
         if new_head in self.fruit:
             # Eating fruit: remove the fruit and add a new one
             self.fruit.remove(new_head)
@@ -56,13 +73,6 @@ class State:
         else:
             # Not eating fruit: remove last part of the snake
             del self.snake_coords[0]
-
-        # Handle the snake crashing into itself
-        if new_head in self.snake_coords:
-            self.snake_alive = False
-
-        # Add the new coordinate to the snake
-        self.snake_coords.append(new_head)
 
     def add_fruit(self):
         """Add a new fruit to the game"""
