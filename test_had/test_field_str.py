@@ -17,7 +17,7 @@ def test_repr_empty_field():
         . . . . . . . . . .
     """).strip()
     state = had.State()
-    state.snake = []
+    state.snake_coords = []
     assert str(state) == expected
 
 
@@ -35,7 +35,7 @@ def test_repr_some_coords():
         . . . . . . . . . .
     """).strip()
     state = had.State()
-    state.snake = [(2, 2), (3, 3), (4, 7)]
+    state.snake_coords = [(2, 2), (3, 3), (4, 7)]
     assert str(state) == expected
 
 
@@ -53,7 +53,7 @@ def test_repr_snake():
         . . . . . . . . . .
     """).strip()
     state = had.State()
-    state.snake = [(2, 2), (3, 2), (4, 2), (4, 3), (4, 4), (4, 5), (4, 6), (4, 7), (4, 8)]
+    state.snake_coords = [(2, 2), (3, 2), (4, 2), (4, 3), (4, 4), (4, 5), (4, 6), (4, 7), (4, 8)]
     assert str(state) == expected
 
 
@@ -68,5 +68,5 @@ def test_repr_size():
     state = had.State()
     state.width = 11
     state.height = 5
-    state.snake = [(2, 2), (3, 3)]
+    state.snake_coords = [(2, 2), (3, 3)]
     assert str(state) == expected

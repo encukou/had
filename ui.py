@@ -12,7 +12,6 @@ sprites = pyglet.image.load('sprites.png')
 window = pyglet.window.Window(width=800, height=600)
 
 state = had.State()
-state.add_snake()
 state.add_fruit()
 state.width = window.width // TILE_SIZE
 state.height = window.height // TILE_SIZE
@@ -31,22 +30,21 @@ def draw():
     pyglet.gl.glBlendFunc(pyglet.gl.GL_SRC_ALPHA, pyglet.gl.GL_ONE_MINUS_SRC_ALPHA)
     tile_width = window.width // state.width
     tile_height = window.height // state.height
-    for snake in state.snakes:
-        for a, b, c in zip(
-                snake.coords[1:] + [None],
-                snake.coords,
-                [None] + snake.coords):
-            x, y = b
-            u = direction(a, b)
-            v = direction(b, c)
-            if a is None:
-                if not snake.alive:
-                    u += 6
-                elif time.time() % 1 < 0.2:
-                    u += 5
-            get_tile(u, v).blit(
-                x * tile_width, y * tile_height,
-                width=tile_width, height=tile_height)
+    for a, b, c in zip(
+            state.snake_coords[1:] + [None],
+            state.snake_coords,
+            [None] + state.snake_coords):
+        x, y = b
+        u = direction(a, b)
+        v = direction(b, c)
+        if a is None:
+            if not state.snake_alive:
+                u += 6
+            elif time.time() % 1 < 0.2:
+                u += 5
+        get_tile(u, v).blit(
+            x * tile_width, y * tile_height,
+            width=tile_width, height=tile_height)
     for x, y, in state.fruit:
         get_tile(0, 5).blit(
             x * tile_width, y * tile_height,
@@ -84,23 +82,14 @@ def direction(a, b):
 
 
 def key_press(symbol, mod):
-    snakes = state.snakes
-    if symbol == pyglet.window.key.A:
-        snakes[0].queued_directions.append((-1, 0))
     if symbol == pyglet.window.key.LEFT:
-        snakes[1].queued_directions.append((-1, 0))
-    if symbol == pyglet.window.key.D:
-        snakes[0].queued_directions.append((1, 0))
+        state.snake_queued_directions.append((-1, 0))
     if symbol == pyglet.window.key.RIGHT:
-        snakes[1].queued_directions.append((1, 0))
-    if symbol == pyglet.window.key.S:
-        snakes[0].queued_directions.append((0, -1))
+        state.snake_queued_directions.append((1, 0))
     if symbol == pyglet.window.key.DOWN:
-        snakes[1].queued_directions.append((0, -1))
-    if symbol == pyglet.window.key.W:
-        snakes[0].queued_directions.append((0, 1))
+        state.snake_queued_directions.append((0, -1))
     if symbol == pyglet.window.key.UP:
-        snakes[1].queued_directions.append((0, 1))
+        state.snake_queued_directions.append((0, 1))
 
 window.push_handlers(
     on_draw=draw,
