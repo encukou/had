@@ -1,6 +1,8 @@
 import random
 
 class State:
+    """Object holding the whole state of a snake game"""
+
     def __init__(self):
         self.width = 10
         self.height = 10
@@ -8,7 +10,7 @@ class State:
         self.speed = 1/10
 
         self.snake_alive = True
-        self.snake_coords = [(0, 0)]
+        self.snake_coords = [(0, 0), (1, 0)]
         self.snake_direction = 1, 0
         self.snake_queued_directions = []
 
@@ -26,8 +28,11 @@ class State:
         return '\n'.join(' '.join(row) for row in reversed(rows))
 
     def move(self):
+        """One game turn"""
         if not self.snake_alive:
             return
+        # If there is a queued direction, set it, unless it's opposite
+        # of the current direction (that would make the snake crash immediately!)
         if self.snake_queued_directions:
             old_x, old_y = self.snake_direction
             new_direction = self.snake_queued_directions[0]
@@ -35,6 +40,7 @@ class State:
             new_x, new_y = new_direction
             if (old_x, old_y) != (-new_x, -new_y):
                 self.snake_direction = new_direction
+        # Get the old and new snake coordinates
         old_x, old_y = self.snake_coords[-1]
         dx, dy = self.snake_direction
         new_x = old_x + dx
@@ -42,18 +48,24 @@ class State:
         new_x = new_x % self.width
         new_y = new_y % self.height
         new_head = new_x, new_y
+
         if new_head in self.fruit:
+            # Eating fruit: remove the fruit and add a new one
             self.fruit.remove(new_head)
             self.add_fruit()
         else:
+            # Not eating fruit: remove last part of the snake
             del self.snake_coords[0]
+
+        # Handle the snake crashing into itself
         if new_head in self.snake_coords:
             self.snake_alive = False
-            self.snake_coords.append(new_head)
-            return
+
+        # Add the new coordinate to the snake
         self.snake_coords.append(new_head)
 
     def add_fruit(self):
+        """Add a new fruit to the game"""
         for i in range(100):
             x = random.randrange(self.width)
             y = random.randrange(self.height)
