@@ -22,14 +22,8 @@ class Snake():
         dx, dy = self.direction
         new_x = old_x + dx
         new_y = old_y + dy
-        if new_x < 0:
-            new_x = self.state.width - 1
-        if new_y < 0:
-            new_y = self.state.height - 1
-        if new_x >= self.state.width:
-            new_x = 0
-        if new_y >= self.state.height:
-            new_y = 0
+        new_x = new_x % self.state.width
+        new_x = new_x % self.state.height
         new_head = new_x, new_y
         if new_head in self.state.fruit:
             self.state.fruit.remove(new_head)
