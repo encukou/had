@@ -3,11 +3,16 @@ import time
 import pyglet
 
 import had
+from pathlib import Path
 
 TILE_SIZE = 64
 MARGIN = 8
 
-sprites = pyglet.image.load('sprites.png')
+red_image = pyglet.image.load('apple.png')
+
+snake_tiles = {}
+for path in Path('snake-tiles').glob('*.png'):
+    snake_tiles[path.stem] = pyglet.image.load(path)
 
 window = pyglet.window.Window(width=800, height=600)
 
@@ -18,12 +23,6 @@ state.height = window.height // TILE_SIZE
 
 queued_directions = []
 
-def get_tile(u, v):
-    return sprites.get_region(
-        MARGIN+u*(TILE_SIZE+MARGIN*2),
-        MARGIN+v*(TILE_SIZE+MARGIN*2),
-        TILE_SIZE, TILE_SIZE)
-
 def draw():
     window.clear()
     pyglet.gl.glEnable(pyglet.gl.GL_BLEND)
@@ -31,22 +30,25 @@ def draw():
     tile_width = window.width // state.width
     tile_height = window.height // state.height
     for a, b, c in zip(
-            state.snake_coords[1:] + [None],
+            [None] + state.snake_coords,
             state.snake_coords,
-            [None] + state.snake_coords):
+            state.snake_coords[1:] + [None],
+            ):
         x, y = b
         u = direction(a, b)
-        v = direction(b, c)
-        if a is None:
+        v = direction(c, b)
+        if v == 'tail':
             if not state.snake_alive:
-                u += 6
+                v = 'dead'
             elif time.time() % 1 < 0.2:
-                u += 5
-        get_tile(u, v).blit(
+                v = 'tongue'
+            else:
+                v = 'head'
+        snake_tiles[u + "-" + v].blit(
             x * tile_width, y * tile_height,
             width=tile_width, height=tile_height)
     for x, y, in state.fruit:
-        get_tile(0, 5).blit(
+        red_image.blit(
             x * tile_width, y * tile_height,
             width=tile_width, height=tile_height)
 
@@ -56,29 +58,29 @@ def tick(dt):
 
 def direction(a, b):
     if a is None:
-        return 0
+        return 'tail'
     if b is None:
-        return 0
+        return 'tail'
     x1, y1 = a
     x2, y2 = b
     if x1 == x2 - 1:
-        return 1
+        return 'left'
     elif x1 == x2 + 1:
-        return 2
+        return 'right'
     elif y1 == y2 - 1:
-        return 3
+        return 'bottom'
     elif y1 == y2 + 1:
-        return 4
+        return 'top'
     elif x1 > x2:
-        return 1
+        return 'left'
     elif x1 < x2:
-        return 2
+        return 'right'
     elif y1 > y2:
-        return 3
+        return 'bottom'
     elif y1 < y2:
-        return 4
+        return 'top'
     else:
-        return 0
+        return 'tail'
 
 
 def key_press(symbol, mod):

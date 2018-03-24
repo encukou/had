@@ -33,11 +33,11 @@ Sprites are [automatically](./make_sprites.py) generated from a [vector file](./
 
 ![Master vector](./sprites.svg)
 
-... into a [spritesheet](./sprites.png) designed for easy lookup:
+... into a [spritesheet](./sprites.png):
 
 ![Spritesheet](./sprites.png)
 
-... from which the game then draws individual “tiles”:
+... and also undividual [tiles](./snake-tiles.zip), which the game uses:
 
 ![Screenshot](./screenshot.png)
 
