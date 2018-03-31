@@ -23,6 +23,7 @@ def game_page(width, height):
     return f"""<!doctype html>
         <html>
             <head>
+                <link rel="shortcut icon" href="{ url_for('apple_image') }">
                 <title>HAD</title>
             </head>
             <body>
