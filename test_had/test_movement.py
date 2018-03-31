@@ -70,21 +70,21 @@ def test_crash_self(direction):
     assert not field.snake_alive
 
 @pytest.mark.parametrize('direction', [(0, 1), (0, -1), (1, 0), (-1, 0)])
-def test_eat_fruit(direction):
+def test_eat_food(direction):
     field = had.State()
     field.snake_coords = [(0, 0)]
     field.width = 5
     field.height = 5
     field.snake_coords = [(2, 2)]
-    field.fruit = [(2, 1), (2, 3), (1, 2), (3, 2)]
+    field.food = [(2, 1), (2, 3), (1, 2), (3, 2)]
     field.snake_direction = direction
     print(field, '\n')
     field.move()
     print(field, '\n')
-    assert len(field.fruit) == 4
-    assert len(set(field.fruit) - {(2, 1), (1, 2), (2, 3), (3, 2)}) == 1
-    field.fruit = [(2, 1), (2, 3), (1, 2), (3, 2)]
-    field.fruit.remove((2+direction[0], 2+direction[1]))
+    assert len(field.food) == 4
+    assert len(set(field.food) - {(2, 1), (1, 2), (2, 3), (3, 2)}) == 1
+    field.food = [(2, 1), (2, 3), (1, 2), (3, 2)]
+    field.food.remove((2+direction[0], 2+direction[1]))
     print(field, '\n')
     assert len(field.snake_coords) == 2
     assert field.snake_coords[0] == (2, 2)
@@ -93,9 +93,9 @@ def test_eat_fruit(direction):
     assert len(field.snake_coords) == 2
     assert (2, 2) not in field.snake_coords
 
-    assert len(field.fruit) == 3
-    assert len(set(field.fruit)) == 3
-    assert set(field.fruit).isdisjoint(field.snake_coords)
+    assert len(field.food) == 3
+    assert len(set(field.food)) == 3
+    assert set(field.food).isdisjoint(field.snake_coords)
     assert field.snake_alive
 
     field.move()

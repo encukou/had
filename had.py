@@ -6,7 +6,7 @@ class State:
     def __init__(self):
         self.width = 10
         self.height = 10
-        self.fruit = []
+        self.food = []
         self.speed = 1/10
 
         self.snake_alive = True
@@ -33,7 +33,7 @@ class State:
         elif self.snake_direction == (0, -1):
             rows[y][x] = 'v'
 
-        for x, y in self.fruit:
+        for x, y in self.food:
             rows[y][x] = '!'
         return '\n'.join(' '.join(row) for row in reversed(rows))
 
@@ -66,20 +66,20 @@ class State:
         # Add the new coordinate to the snake
         self.snake_coords.append(new_head)
 
-        if new_head in self.fruit:
-            # Eating fruit: remove the fruit and add a new one
-            self.fruit.remove(new_head)
-            self.add_fruit()
+        if new_head in self.food:
+            # Eating food: remove the food and add a new one
+            self.food.remove(new_head)
+            self.add_food()
         else:
             # Not eating fruit: remove last part of the snake
             del self.snake_coords[0]
 
-    def add_fruit(self):
-        """Add a new fruit to the game"""
+    def add_food(self):
+        """Add a new piece of food to the game"""
         for i in range(100):
             x = random.randrange(self.width)
             y = random.randrange(self.height)
             position = x, y
-            if not (position in self.snake_coords or position in self.fruit):
-                self.fruit.append(position)
+            if not (position in self.snake_coords or position in self.food):
+                self.food.append(position)
                 return

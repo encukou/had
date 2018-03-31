@@ -17,7 +17,7 @@ for path in Path('snake-tiles').glob('*.png'):
 window = pyglet.window.Window(width=800, height=600)
 
 state = had.State()
-state.add_fruit()
+state.add_food()
 state.width = window.width // TILE_SIZE
 state.height = window.height // TILE_SIZE
 
@@ -47,7 +47,7 @@ def draw():
         snake_tiles[u + "-" + v].blit(
             x * tile_width, y * tile_height,
             width=tile_width, height=tile_height)
-    for x, y, in state.fruit:
+    for x, y, in state.food:
         red_image.blit(
             x * tile_width, y * tile_height,
             width=tile_width, height=tile_height)
@@ -100,9 +100,9 @@ window.push_handlers(
 
 tick(state.speed)
 
-def add_more_fruit(dt):
-    state.add_fruit()
+def add_more_food(dt):
+    state.add_food()
 
-pyglet.clock.schedule_interval(add_more_fruit, 30)
+pyglet.clock.schedule_interval(add_more_food, 30)
 
 pyglet.app.run()
