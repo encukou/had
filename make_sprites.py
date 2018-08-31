@@ -65,14 +65,14 @@ MAP = {
 }
 
 DIRNAMES_Y = [
-    'tail',
+    'end',
     'right',
     'left',
     'bottom',
     'top',
 ]
 DIRNAMES_X = (
-    'head',
+    'end',
     'left',
     'right',
     'top',

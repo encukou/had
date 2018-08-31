@@ -116,13 +116,11 @@ def game(state_str, instructions=None):
         x, y = b
         u = direction(a, b)
         v = direction(c, b)
-        if v == 'tail':
+        if v == 'end':
             if not state.snake_alive:
                 v = 'dead'
             #elif time.time() % 1 < 0.2:
             #    v = 'tongue'
-            else:
-                v = 'head'
         images.append((x, y, url_for('tile_image', a=u, b=v)))
     result = [f"""
             <img
@@ -171,9 +169,9 @@ def decode_state(state_str):
 
 def direction(a, b):
     if a is None:
-        return 'tail'
+        return 'end'
     if b is None:
-        return 'tail'
+        return 'end'
     x1, y1 = a
     x2, y2 = b
     if x1 == x2 - 1:
@@ -193,7 +191,7 @@ def direction(a, b):
     elif y1 < y2:
         return 'top'
     else:
-        return 'tail'
+        return 'end'
 
 @app.route('/tile/<a>-<b>.png')
 def tile_image(a, b):

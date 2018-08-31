@@ -37,13 +37,11 @@ def draw():
         x, y = b
         u = direction(a, b)
         v = direction(c, b)
-        if v == 'tail':
+        if v == 'end':
             if not state.snake_alive:
                 v = 'dead'
             elif time.time() % 1 < 0.2:
                 v = 'tongue'
-            else:
-                v = 'head'
         snake_tiles[u + "-" + v].blit(
             x * tile_width, y * tile_height,
             width=tile_width, height=tile_height)
@@ -58,9 +56,9 @@ def tick(dt):
 
 def direction(a, b):
     if a is None:
-        return 'tail'
+        return 'end'
     if b is None:
-        return 'tail'
+        return 'end'
     x1, y1 = a
     x2, y2 = b
     if x1 == x2 - 1:
@@ -80,7 +78,7 @@ def direction(a, b):
     elif y1 < y2:
         return 'top'
     else:
-        return 'tail'
+        return 'end'
 
 
 def key_press(symbol, mod):
